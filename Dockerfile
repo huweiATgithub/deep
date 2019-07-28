@@ -2,7 +2,7 @@ FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 
 
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
-    PIP_INSTALL="python -m pip --no-cache-dir install --upgrade" && \
+    PIP_INSTALL="pip --no-cache-dir install --upgrade" && \
     GIT_CLONE="git clone --depth 10" && \
     #=============== removing===
     rm -rf /var/lib/apt/lists/* \
@@ -37,10 +37,13 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     scikit-learn \
     matplotlib \
     Cython \
+    jupyter \
+    nb_conda_kernels \
     && \
     /opt/conda/bin/conda clean -tipsy && \
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
     
+RUN PIP_INSTALL tensorflow-gpu==2.0.0-beta1
 
