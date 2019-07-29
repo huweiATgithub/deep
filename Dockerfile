@@ -47,3 +47,10 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     
 RUN PIP_INSTALL tensorflow-gpu==2.0.0-beta1
 
+RUN ldconfig && \
+    apt-get clean && \
+    apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/* /tmp/* ~/*
+    
+EXPOSE 8888 6006
+
