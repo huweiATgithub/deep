@@ -47,7 +47,7 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     mkdir /data
     
 RUN PIP_INSTALL="pip --no-cache-dir install --upgrade" && \ 
-    PIP_INSTALL tensorflow-gpu==2.0.0-beta1 \
+    $PIP_INSTALL tensorflow-gpu==2.0.0-beta1 \
     jupyter-tensorboard
 
 # RUN ldconfig && \
