@@ -2,8 +2,7 @@ FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
 
 
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
-    PIP_INSTALL="pip --no-cache-dir install --upgrade" && \
-    GIT_CLONE="git clone --depth 10" && \
+    # GIT_CLONE="git clone --depth 10" && \
     #=============== removing===
     rm -rf /var/lib/apt/lists/* \
            /etc/apt/sources.list.d/cuda.list \
@@ -19,6 +18,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     curl \
     git \ 
     && \
+    ldconfig && \
     apt-get clean && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* 
@@ -46,7 +46,9 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     echo "conda activate base" >> ~/.bashrc && \
     mkdir /data
     
-RUN PIP_INSTALL tensorflow-gpu==2.0.0-beta1
+RUN PIP_INSTALL="pip --no-cache-dir install --upgrade" && \ 
+    PIP_INSTALL tensorflow-gpu==2.0.0-beta1 \
+    jupyter-tensorboard
 
 # RUN ldconfig && \
 #    apt-get clean && \
