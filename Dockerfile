@@ -43,14 +43,15 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     /opt/conda/bin/conda clean -tipsy && \
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    echo "conda activate base" >> ~/.bashrc
+    echo "conda activate base" >> ~/.bashrc && \
+    mkdir /data
     
 RUN PIP_INSTALL tensorflow-gpu==2.0.0-beta1
 
-RUN ldconfig && \
-    apt-get clean && \
-    apt-get autoremove && \
-    rm -rf /var/lib/apt/lists/* /tmp/* ~/*
+# RUN ldconfig && \
+#    apt-get clean && \
+#    apt-get autoremove && \
+#    rm -rf /var/lib/apt/lists/* /tmp/* ~/*
     
 EXPOSE 8888 6006
-
+CMD ["bash", "-c", "conda activate base && jupyter lab --ip=0.0.0.0 --no-browser --port=8888 --allow-root --notebook-dir=/data"]
