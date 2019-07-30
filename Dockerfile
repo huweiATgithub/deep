@@ -10,6 +10,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     #===============get some packages
     apt-get update --fix-missing && \
     DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+    apt-utils \
     build-essential \
     software-properties-common \
     wget \
@@ -38,6 +39,7 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     matplotlib \
     Cython \
     jupyter \
+    jupyterlab \
     nb_conda_kernels \
     && \
     /opt/conda/bin/conda clean -tipsy && \
@@ -48,12 +50,8 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     
 RUN PIP_INSTALL="pip --no-cache-dir install --upgrade" && \ 
     $PIP_INSTALL tensorflow-gpu==2.0.0-beta1 \
-    jupyter-tensorboard
-
-# RUN ldconfig && \
-#    apt-get clean && \
-#    apt-get autoremove && \
-#    rm -rf /var/lib/apt/lists/* /tmp/* ~/*
+    jupyter-tensorboard && \
+    rm -rf /var/lib/apt/lists/* /tmp/* ~/*
     
 EXPOSE 8888 6006
-CMD ["bash", "-c", "conda activate base && jupyter lab --ip=0.0.0.0 --no-browser --port=8888 --allow-root --notebook-dir=/data"]
+CMD ["bash", "-c", "jupyter lab --ip=0.0.0.0 --no-browser --port=8888 --allow-root --notebook-dir=/data"]
