@@ -10,7 +10,6 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     #===============get some packages
     apt-get update --fix-missing && \
     DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
-    apt-utils \
     build-essential \
     software-properties-common \
     wget \
@@ -42,16 +41,22 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     jupyterlab \
     nb_conda_kernels \
     && \
+    # use conda clean --all -f -y https://github.com/jupyter/docker-stacks/issues/861
     /opt/conda/bin/conda clean -tipsy && \
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \ 
+    # this will activate base for every bash
     echo "conda activate base" >> ~/.bashrc && \
     mkdir /data
     
 RUN PIP_INSTALL="pip --no-cache-dir install --upgrade" && \ 
     $PIP_INSTALL tensorflow-gpu==2.0.0-beta1 \
-    jupyter-tensorboard && \
+    jupyter-tensorboard \
+    pyyaml \
+    tqdm \
+    && \
     rm -rf /var/lib/apt/lists/* /tmp/* ~/*
-    
+
+WORKDIR /data
 EXPOSE 8888 6006
 CMD ["bash", "-c", "jupyter lab --ip=0.0.0.0 --no-browser --port=8888 --allow-root --notebook-dir=/data"]
