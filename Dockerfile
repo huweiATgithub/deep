@@ -42,7 +42,7 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     nb_conda_kernels \
     && \
     # use conda clean --all -f -y https://github.com/jupyter/docker-stacks/issues/861
-    /opt/conda/bin/conda clean -tipsy && \
+    /opt/conda/bin/conda clean --all -f -y && \
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \ 
     # this will activate base for every bash
