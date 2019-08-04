@@ -56,17 +56,18 @@ RUN PIP_INSTALL="pip --no-cache-dir install --upgrade" && \
     pyyaml \
     tqdm \
     && \
-    rm -rf /var/lib/apt/lists/* /tmp/* ~/*
-    
+    rm -rf /var/lib/apt/lists/* /tmp/* ~/* \
+    && \
+    mkdir /data
+
+VOLUME /data
+EXPOSE 8888 6006
+
 # Add tini
 ENV TINI_VERSION v0.18.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /bin/tini
 RUN chmod +x /bin/tini
-ENTRYPOINT ["/bin/tini", "--"]
+ENTRYPOINT ["/bin/tini", "--", "jupyter", "lab","--ip=0.0.0.0, "--no-browser", "--port=8888", "--allow-root", "--notebook-dir=/data"]
 
 
-RUN mkdir /data
-VOLUME /data
-EXPOSE 8888 6006
-CMD ["jupyter", "lab", "--ip=0.0.0.0, "--no-browser", "--port=8888", "--allow-root", "--notebook-dir=/data", "--NotebookApp.password=sha1:a58051cdbd5c:8ee35109f0076445b37be17d926e56bee5910bea"]
-
+# CMD ["jupyter", "lab", "--ip=0.0.0.0, "--no-browser", "--port=8888", "--allow-root", "--notebook-dir=/data", "--NotebookApp.password=sha1:379d431d4559:b3171db6ac420a5558b31facb381b37f30a96a86"]
