@@ -35,3 +35,6 @@ sudo apt-get install -y nvidia-container-toolkit
 
 # Restart docker to take effect
 sudo systemctl restart docker
+
+# download docker image
+docker pull notanordinary/huwei
