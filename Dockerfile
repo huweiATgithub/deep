@@ -67,7 +67,7 @@ EXPOSE 8888 6006
 ENV TINI_VERSION v0.18.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /bin/tini
 RUN chmod +x /bin/tini
-ENTRYPOINT ["/bin/tini", "--", "jupyter", "lab","--ip=0.0.0.0, "--no-browser", "--port=8888", "--allow-root", "--notebook-dir=/data"]
+ENTRYPOINT ["/bin/tini", "--", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--port=8888", "--allow-root", "--notebook-dir=/data"]
 
 
 # CMD ["jupyter", "lab", "--ip=0.0.0.0, "--no-browser", "--port=8888", "--allow-root", "--notebook-dir=/data", "--NotebookApp.password=sha1:379d431d4559:b3171db6ac420a5558b31facb381b37f30a96a86"]
