@@ -67,7 +67,6 @@ ENTRYPOINT ["/bin/tini", "--"]
 
 RUN mkdir /data
 VOLUME /data
-WORKDIR /data
 EXPOSE 8888 6006
-CMD ["jupyter", "lab", "--ip=0.0.0.0, "--no-browser", "--port=8888", "--allow-root", "--notebook-dir=/data", "--NotebookApp.password='sha1:a58051cdbd5c:8ee35109f0076445b37be17d926e56bee5910bea'"]
+CMD ["jupyter", "lab", "--ip=0.0.0.0, "--no-browser", "--port=8888", "--allow-root", "--notebook-dir=/data", "--NotebookApp.password=sha1:a58051cdbd5c:8ee35109f0076445b37be17d926e56bee5910bea"]
 
