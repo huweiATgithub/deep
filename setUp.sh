@@ -2,14 +2,14 @@
 # install docker
 echo "Start installing docker"
 sudo apt-get update
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
 sudo apt-get update
-sudo apt-get install docker-ce
+sudo apt-get -y install docker-ce
 docker --version
 
 
@@ -22,7 +22,7 @@ sudo usermod -aG docker $USER
 echo "Staring installing driver"
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt-get update
-sudo apt-get install nvidia-driver-410
+sudo apt-get install -y nvidia-driver-410
 
 
 # install nvidia-docker
@@ -37,4 +37,4 @@ sudo apt-get install -y nvidia-container-toolkit
 sudo systemctl restart docker
 
 # download docker image
-docker pull notanordinary/huwei
+sudo docker pull notanordinary/huwei
