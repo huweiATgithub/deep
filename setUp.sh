@@ -20,7 +20,7 @@ sudo usermod -aG docker $USER
 
 # install display driver
 echo "Staring installing driver"
-sudo add-apt-repository ppa:graphics-drivers/ppa
+sudo add-apt-repository -y ppa:graphics-drivers/ppa
 sudo apt-get update
 sudo apt-get install -y nvidia-driver-410
 
