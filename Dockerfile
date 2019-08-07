@@ -65,6 +65,7 @@ EXPOSE 8888 6006
 
 # Add tini
 ENV TINI_VERSION v0.18.0
+ENV SHELL /bin/bash
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /bin/tini
 RUN chmod +x /bin/tini
 ENTRYPOINT ["/bin/tini", "--", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--port=8888", "--allow-root", "--notebook-dir=/data"]
