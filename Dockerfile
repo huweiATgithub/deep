@@ -17,6 +17,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     ca-certificates \
     curl \
     git \ 
+    screen \
     && \
     ldconfig && \
     apt-get clean && \
