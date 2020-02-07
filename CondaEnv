@@ -18,10 +18,8 @@ conda create -n tf2 pip python=3.7 ipykernel
 conda activate tf2
 pip --no-cache-dir install --upgrade tensorflow==2.1
 
-## the following code install tensorrt (after creating containner)
+## One use script installRT.sh to install tensorrt (after creating containner)
 # as one has to apply for a download link each time, we will not pass this file when building docker
-cp /data/nv-tensorrt-repo-ubuntu1804-cuda10.1-trt6.0.1.5-ga-20190913_1-1_amd64 /
-
 
 
 ## Create pytorch environment
