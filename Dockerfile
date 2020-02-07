@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:10.1-runtime-ubuntu18.04
 
 # Get some packages
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
@@ -51,15 +51,15 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     echo "conda activate base" >> ~/.bashrc
 
 # Install tensorflow
-RUN PIP_INSTALL="pip --no-cache-dir install --upgrade" && \ 
-    $PIP_INSTALL tensorflow-gpu==2.0.0-beta1 \
-    jupyter-tensorboard \
-    pyyaml \
-    tqdm \
-    && \
-    rm -rf /var/lib/apt/lists/* /tmp/* ~/* \
-    && \
-    mkdir /data
+# RUN PIP_INSTALL="pip --no-cache-dir install --upgrade" && \ 
+#     $PIP_INSTALL tensorflow-gpu==2.0.0-beta1 \
+#     jupyter-tensorboard \
+#     pyyaml \
+#     tqdm \
+#     && \
+#     rm -rf /var/lib/apt/lists/* /tmp/* ~/* \
+#     && \
+#     mkdir /data
 
 VOLUME /data
 EXPOSE 8888 6006
