@@ -24,11 +24,8 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* 
     
-ARG CONDA="/opt/conda/bin/conda" \
-    PY_VERSION=3.7 \
-    TF1_VERSION=1.14 NUMPY_TF1_VERSION=1.16 \
-    TF2_VERSION=2.1
-    
+ARG CONDA="/opt/conda/bin/conda"
+ARG PY_VERSION=3.7
 # Install miniconda as well as python and some packages
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH /opt/conda/bin:$PATH
@@ -36,7 +33,7 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
     rm ~/miniconda.sh && \
     $CONDA install -y \
-    python \
+    python=$PY_VERSION \
     pip \
     setuptools \
     numpy \
@@ -55,15 +52,21 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     # this will activate base for every bash
     echo "conda activate base" >> ~/.bashrc
 
-
 # Tensorflow 1.14
-RUN $CONDA create -n tf1 -y --quiet pip python=$PY_VERSION tensorflow-gpu=$TF1_VERSION cudatoolkit=10.0 numpy=$NUMPY_TF1_VERSION ipykernel
+ARG TF1_VERSION=1.14
+ARG NUMPY_TF1_VERSION=1.16
+RUN $CONDA create -n tf1 -y --quiet \ 
+    pip python=$PY_VERSION tensorflow-gpu=$TF1_VERSION cudatoolkit=10.0 numpy=$NUMPY_TF1_VERSION ipykernel && \
+    $CONDA clean --all -f -y
 # Tensorflow 2.1
+ARG TF2_VERSION=2.1
 RUN $CONDA create -n tf2 -y --quiet pip python=$PY_VERSION ipykernel && \ 
-    $CONDA activate tf2 && pip --no-cache-dir install --upgrade tensorflow==$TF2_VERSION
+    $CONDA activate tf2 && pip --no-cache-dir install --upgrade tensorflow==$TF2_VERSION && \
+    $CONDA clean --all -f -y
 # PyTorch
 RUN $CONDA create -n torch -y --quiet pip python=$PY_VERSION ipykernel && \
-    $CONDA install -n torch -y pytorch torchvision -c pytorch
+    $CONDA install -n torch -y pytorch torchvision -c pytorch && \
+    $CONDA clean --all -f -y
 
 VOLUME /data
 EXPOSE 8888 6006
