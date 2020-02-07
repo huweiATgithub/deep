@@ -1,0 +1,41 @@
+## Create tensorflow 1.14 environment
+# the following version is verified to be compatible
+# see https://www.tensorflow.org/install/source for suggestions, though it was tested that cudnn 7.4 is compatible. but cudnn7.4 is missing
+# from anaconda. The automated selected cudnn7.6.5 works well.
+conda create -n tf1 pip python=3.7 tensorflow-gpu=1.14 cudatoolkit=10.0 numpy=1.16 ipykernel
+# conda activate tf1
+# pip --no-cache-dir install --upgrade tornado jupyter-tensorboard
+# as we start jupyter server from conda base, and change env by kernel tools of jupyter, we will not install jupyter inside env tf1.
+# therefore, we do not install jupyter-tensorboard there. One should access tensorboard either by magic command of jupyter, or start from
+# bash. open a new port for tensorboard server.
+
+## Create tensorflow 2.1 environment
+# start from tensorflow 2.1, no need to specify gpu.
+# as suggested in: https://www.tensorflow.org/install/source
+# as we use by default cudatoolkit10.1, we don't need install this in the environment.
+# otherwise, one should also install cudatoolkit like above
+conda create -n tf2 pip python=3.7 ipykernel
+conda activate tf2
+pip --no-cache-dir install --upgrade tensorflow==2.1
+
+## the following code install tensorrt (after creating containner)
+# as one has to apply for a download link each time, we will not pass this file when building docker
+cp /data/nv-tensorrt-repo-ubuntu1804-cuda10.1-trt6.0.1.5-ga-20190913_1-1_amd64 /
+
+
+
+## Create pytorch environment
+# as we by default has cudatoolkit10.1, we don't need to install it here.
+conda create -n torch pip python=3.7 ipykernel
+conda install -n torch pytorch torchvision -c pytorch
+
+
+
+
+## Others
+# Tacotron2
+conda install -c conda-forge librosa keras pyaudio
+pip install falcon==1.2.0 inflect==0.2.5 audioread==2.1.5 tqdm==4.11.2 Unidecode==0.4.20 sounddevice==0.3.10 lws
+
+
+# add new kernel to jupyter
