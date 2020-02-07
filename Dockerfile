@@ -60,9 +60,9 @@ RUN $CONDA create -n tf1 -y --quiet \
     $CONDA clean --all -f -y
 # Tensorflow 2.1
 ARG TF2_VERSION=2.1
-RUN /bin/bash -c "$CONDA create -n tf2 -y --quiet pip python=$PY_VERSION ipykernel && \ 
-    $CONDA activate tf2 && pip --no-cache-dir install --upgrade tensorflow==$TF2_VERSION && \
-    $CONDA clean --all -f -y"
+RUN $CONDA create -n tf2 -y --quiet pip python=$PY_VERSION ipykernel && \ 
+    $CONDA run -n tf2 pip --no-cache-dir install --upgrade tensorflow==$TF2_VERSION && \
+    $CONDA clean --all -f -y
 # PyTorch
 RUN $CONDA create -n torch -y --quiet pip python=$PY_VERSION ipykernel && \
     $CONDA install -n torch -y pytorch torchvision -c pytorch && \
