@@ -23,14 +23,19 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     apt-get clean && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* 
-
+    
+ARG CONDA="/opt/conda/bin/conda" \
+    PY_VERSION=3.7 \
+    TF1_VERSION=1.14 NUMPY_TF1_VERSION=1.16 \
+    TF2_VERSION=2.1
+    
 # Install miniconda as well as python and some packages
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH /opt/conda/bin:$PATH
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
     rm ~/miniconda.sh && \
-    /opt/conda/bin/conda install -y \
+    $CONDA install -y \
     python \
     pip \
     setuptools \
@@ -44,22 +49,21 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     nb_conda_kernels \
     && \
     # use conda clean --all -f -y https://github.com/jupyter/docker-stacks/issues/861
-    /opt/conda/bin/conda clean --all -f -y && \
+    $CONDA clean --all -f -y && \
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \ 
     # this will activate base for every bash
     echo "conda activate base" >> ~/.bashrc
 
-# Install tensorflow
-# RUN PIP_INSTALL="pip --no-cache-dir install --upgrade" && \ 
-#     $PIP_INSTALL tensorflow-gpu==2.0.0-beta1 \
-#     jupyter-tensorboard \
-#     pyyaml \
-#     tqdm \
-#     && \
-#     rm -rf /var/lib/apt/lists/* /tmp/* ~/* \
-#     && \
-#     mkdir /data
+
+# Tensorflow 1.14
+RUN $CONDA create -n tf1 -y --quiet pip python=$PY_VERSION tensorflow-gpu=$TF1_VERSION cudatoolkit=10.0 numpy=$NUMPY_TF1_VERSION ipykernel
+# Tensorflow 2.1
+RUN $CONDA create -n tf2 -y --quiet pip python=$PY_VERSION ipykernel && \ 
+    $CONDA activate tf2 && pip --no-cache-dir install --upgrade tensorflow==$TF2_VERSION
+# PyTorch
+RUN $CONDA create -n torch -y --quiet pip python=$PY_VERSION ipykernel && \
+    $CONDA install -n torch -y pytorch torchvision -c pytorch
 
 VOLUME /data
 EXPOSE 8888 6006
