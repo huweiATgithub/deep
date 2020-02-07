@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.1-runtime-ubuntu18.04
+FROM nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
 
 # Get some packages
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
