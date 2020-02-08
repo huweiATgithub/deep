@@ -56,15 +56,32 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 ARG TF1_VERSION=1.14
 ARG NUMPY_TF1_VERSION=1.16
 RUN $CONDA create -n tf1 -y --quiet \ 
-    pip python=$PY_VERSION tensorflow-gpu=$TF1_VERSION cudatoolkit=10.0 numpy=$NUMPY_TF1_VERSION ipykernel && \
+    pip \
+    python=$PY_VERSION \
+    tensorflow-gpu=$TF1_VERSION \
+    cudatoolkit=10.0 \
+    numpy=$NUMPY_TF1_VERSION \
+    ipykernel \
+    matplotlib \
+    && \
     $CONDA clean --all -f -y
 # Tensorflow 2.1
 ARG TF2_VERSION=2.1
-RUN $CONDA create -n tf2 -y --quiet pip python=$PY_VERSION ipykernel && \ 
+RUN $CONDA create -n tf2 -y --quiet \
+    pip \
+    python=$PY_VERSION \
+    ipykernel \
+    matplotlib \
+    && \
     $CONDA run -n tf2 pip --no-cache-dir install --upgrade tensorflow==$TF2_VERSION && \
     $CONDA clean --all -f -y
 # PyTorch
-RUN $CONDA create -n torch -y --quiet pip python=$PY_VERSION ipykernel && \
+RUN $CONDA create -n torch -y --quiet \
+    pip \
+    python=$PY_VERSION \
+    ipykernel \
+    matplotlib \
+    && \
     $CONDA install -n torch -y pytorch torchvision -c pytorch && \
     $CONDA clean --all -f -y
 
