@@ -12,6 +12,9 @@ sudo apt-get update
 sudo apt-get -y install docker-ce
 docker --version
 
+sudo curl -fsSL "https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
 
 echo "Adding docker group"
 sudo groupadd docker
