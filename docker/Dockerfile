@@ -95,5 +95,8 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /bin/
 RUN chmod +x /bin/tini
 ENTRYPOINT ["/bin/tini", "--", "jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--port=8888", "--allow-root", "--notebook-dir=/data"]
 
-
+# run the image will automatically start jupyter, cannot be overwrite by other commands. This is so as to provide option for configure
+# password at creating time.
+# If put jupyter in CMD, one must assign password in advance. Or manually type these jupyter commands. which is tedious.
+# We accept this workaround. To start bash, either exec or start it in jupyter lab.
 # CMD ["jupyter", "lab", "--ip=0.0.0.0, "--no-browser", "--port=8888", "--allow-root", "--notebook-dir=/data", "--NotebookApp.password=sha1:379d431d4559:b3171db6ac420a5558b31facb381b37f30a96a86"]
