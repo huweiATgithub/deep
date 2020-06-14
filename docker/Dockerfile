@@ -65,8 +65,8 @@ RUN $CONDA create -n tf1 -y --quiet \
     matplotlib \
     && \
     $CONDA clean --all -f -y
-# Tensorflow 2.1
-ARG TF2_VERSION=2.1
+# Tensorflow 2.2
+ARG TF2_VERSION=2.2
 RUN $CONDA create -n tf2 -y --quiet \
     pip \
     python=$PY_VERSION \
