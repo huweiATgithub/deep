@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:11.0.3-cudnn8-runtime-ubuntu20.04
 
 # Get some packages
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
@@ -65,8 +65,8 @@ RUN $CONDA create -n tf1 -y --quiet \
     matplotlib \
     && \
     $CONDA clean --all -f -y
-# Tensorflow 2.2
-ARG TF2_VERSION=2.2
+# Tensorflow 2.x
+ARG TF2_VERSION=2.4
 RUN $CONDA create -n tf2 -y --quiet \
     pip \
     python=$PY_VERSION \
@@ -89,7 +89,7 @@ VOLUME /data
 EXPOSE 8888 6006
 
 # Add tini
-ENV TINI_VERSION v0.18.0
+ENV TINI_VERSION v0.19.0
 ENV SHELL /bin/bash
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /bin/tini
 RUN chmod +x /bin/tini
